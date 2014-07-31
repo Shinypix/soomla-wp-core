@@ -84,11 +84,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="data\JSONConsts.cs" />
     <Compile Include="data\KeyValDatabase.cs" />
     <Compile Include="data\KeyValueStorage.cs" />
     <Compile Include="Soomla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoomlaConfig.cs" />
+    <Compile Include="SoomlaEntity.cs" />
     <Compile Include="SoomlaUtils.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
@@ -103,6 +105,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\wp8-store\wp-store-example\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Sqlite">
       <HintPath>..\..\..\wp8-store\wp-store\packages\sqlite-net-wp8.3.8.5\lib\windowsphone8\Sqlite.winmd</HintPath>
     </Reference>
