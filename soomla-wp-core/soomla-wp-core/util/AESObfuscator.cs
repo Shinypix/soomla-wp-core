@@ -22,11 +22,11 @@ namespace SoomlaWpCore.util
             }
             catch (CryptographicException cryptEx)
             {
-                SoomlaUtils.DebugLog(TAG, "Encryption Error " + cryptEx.Message);
+                SoomlaUtils.LogDebug(TAG, "Encryption Error " + cryptEx.Message);
             }
             catch (Exception ex)
             {
-                SoomlaUtils.DebugLog(TAG, "General Error " + ex.Message);
+                SoomlaUtils.LogDebug(TAG, "General Error " + ex.Message);
             }
             return null;
                 
@@ -40,11 +40,11 @@ namespace SoomlaWpCore.util
             }
             catch (CryptographicException cryptEx)
             {
-                SoomlaUtils.DebugLog(TAG, "Decryption Error " + cryptEx.Message);
+                SoomlaUtils.LogDebug(TAG, "Decryption Error " + cryptEx.Message);
             }
             catch (Exception ex)
             {
-                SoomlaUtils.DebugLog(TAG, "General Error " + ex.Message);
+                SoomlaUtils.LogDebug(TAG, "General Error " + ex.Message);
             }
             return null;
         }

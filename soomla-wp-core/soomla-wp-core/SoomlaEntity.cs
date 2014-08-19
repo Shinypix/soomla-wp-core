@@ -25,8 +25,12 @@ namespace SoomlaWpCore
 
         public JObject toJSONObject()
         {
+            if (mID == null)
+            {
+                SoomlaUtils.LogError(TAG, "This is BAD! We don't have ID in the this SoomlaEntity. Stopping here.");
+                return null;
+            }
             JObject jsonObject = new JObject();
-            
             jsonObject[JSONConsts.SOOM_ENTITY_NAME] = mName;
             jsonObject[JSONConsts.SOOM_ENTITY_DESCRIPTION] = mDescription;
             jsonObject[JSONConsts.SOOM_ENTITY_ID] = mID;

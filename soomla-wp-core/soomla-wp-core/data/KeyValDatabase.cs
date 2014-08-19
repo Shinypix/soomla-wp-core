@@ -47,10 +47,10 @@ namespace SoomlaWpCore.data
             List<KeyValue> retrievedKeyValue = dbConn.Table<KeyValue>().ToList<KeyValue>();
             /// Clear the list box that will show all the tasks.
 
-            SoomlaUtils.DebugLog(TAG,"DB content");
+            SoomlaUtils.LogDebug(TAG,"DB content");
             foreach (KeyValue t in retrievedKeyValue)
             {
-                SoomlaUtils.DebugLog(TAG,t.Key + " | " + t.Value);
+                SoomlaUtils.LogDebug(TAG,t.Key + " | " + t.Value);
             }
         }
 
