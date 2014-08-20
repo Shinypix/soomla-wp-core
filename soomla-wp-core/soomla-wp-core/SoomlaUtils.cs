@@ -8,7 +8,7 @@ using System.Diagnostics;
 namespace SoomlaWpCore
 {
     
-    class SoomlaUtils
+    public class SoomlaUtils
     {
         public static void LogDebug(String tag, String message)
         {
