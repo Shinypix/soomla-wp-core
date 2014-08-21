@@ -77,6 +77,11 @@ namespace SoomlaWpCore.data
                 return null;
             }
         }
+
+        public void DeleteKeyVal(String Key)
+        {
+            dbConn.Delete<KeyValue>(Key);
+        }
     }
 
     public sealed class KeyValue

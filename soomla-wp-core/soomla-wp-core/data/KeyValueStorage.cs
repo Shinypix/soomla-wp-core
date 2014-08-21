@@ -23,6 +23,10 @@ namespace SoomlaWpCore.data
             string encryptedKey = AESObfuscator.ObfuscateString(Key);
            
             string encryptedValue = GetDatabase().GetKeyVal(encryptedKey);
+            if (encryptedValue == null)
+            {
+                return null;
+            }
             string decryptedValue = AESObfuscator.UnObfuscateString(encryptedValue);
             SoomlaUtils.LogDebug(TAG, "Get ## Clear Key:" + Key + " Encrypted Key:" + encryptedKey + " Encrypted Value:" + encryptedValue + " Clear Value:" + decryptedValue);
             return decryptedValue;
@@ -37,6 +41,12 @@ namespace SoomlaWpCore.data
 
             string decryptedVal = AESObfuscator.UnObfuscateString(encryptedValue);
             SoomlaUtils.LogDebug(TAG, "Set ### Direct uncrypt: " + decryptedVal);
+        }
+
+        public static void DeleteKeyValue(String key)
+        {
+            string encryptedKey = AESObfuscator.ObfuscateString(key);
+            GetDatabase().DeleteKeyVal(encryptedKey);
         }
 
         public static KeyValDatabase GetDatabase()
