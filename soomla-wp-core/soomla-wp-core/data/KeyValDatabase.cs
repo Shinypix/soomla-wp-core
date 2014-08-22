@@ -24,7 +24,7 @@ namespace SoomlaWpCore.data
         /// </summary>
         public static string DB_PATH = Path.Combine(Path.Combine(ApplicationData.Current.LocalFolder.Path, "data.db"));
 
-        private const String TAG = "KeyValDatabase"; //used for Log messages
+        private const String TAG = "SOOMLA KeyValDatabase"; //used for Log messages
 
         /// <summary>
         /// The sqlite connection.
@@ -54,15 +54,19 @@ namespace SoomlaWpCore.data
             }
         }
 
-        public void SetKeyVal(String Key, String Value)
+        public async void SetKeyVal(String Key, String Value)
         {
             KeyValue kv = new KeyValue()
             {
                 Key = Key,
                 Value = Value
             };
+            await InsertOrReplace(kv);
+        }
 
-            dbConn.InsertOrReplace(kv);
+        private Task<int> InsertOrReplace(KeyValue kv)
+        {
+            return System.Threading.Tasks.Task.Factory.StartNew(() => dbConn.InsertOrReplace(kv)); ;
         }
 
         public String GetKeyVal(String Key)
@@ -78,9 +82,16 @@ namespace SoomlaWpCore.data
             }
         }
 
-        public void DeleteKeyVal(String Key)
+        public async void DeleteKeyVal(String Key)
         {
-            dbConn.Delete<KeyValue>(Key);
+            await Delete(Key);
+        }
+
+        private Task<int> Delete(String Key)
+        {
+            Task<int> ret = System.Threading.Tasks.Task.Factory.StartNew(() => dbConn.Delete<KeyValue>(Key));
+            //SoomlaUtils.LogDebug(TAG, "After Deleted");
+            return ret;
         }
     }
 
