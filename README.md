@@ -31,7 +31,7 @@ Fork -> Clone -> Implement —> Insert Comments -> Test -> Pull-Request. We have
 Code Documentation
 ---
 
-We follow strict code documentation conventions. If you would like to contribute please read our [Documentation Guidelines](https://github.com/soomla/wp-core/documentation.md) and follow them. Clear, consistent  comments will make our code easy to understand.
+We follow strict code documentation conventions. If you would like to contribute please read our [Documentation Guidelines](https://github.com/soomla/soomla-wp-core/documentation.md) and follow them. Clear, consistent  comments will make our code easy to understand.
 
 SOOMLA, Elsewhere ...
 ---

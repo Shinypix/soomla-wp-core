@@ -15,7 +15,7 @@ using System;
 
 namespace SoomlaWpCore
 {
-    class SoomlaConfig
+    public class SoomlaConfig
     {
         public static int SOOMLA_VERSION = 1;
         /// <summary>   Activate the Debug Log. </summary>
