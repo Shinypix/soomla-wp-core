@@ -3,6 +3,7 @@
 soomla-wp-core
 ===============
 
+The Windows Phone 8 Soomla core module.
 When using the SOOMLA framework, you always start by initializing the core module:
 ```cs
 Soomla.initialize("[YOUR SOOMLA SECRET HERE]");
