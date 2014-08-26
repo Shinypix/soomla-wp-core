@@ -65,14 +65,6 @@ namespace SoomlaWpCore.data
         public static void SetValue(String Key, String Value)
         {
             GetCache()[Key] = Value;
-            /*
-            string encryptedKey = AESObfuscator.ObfuscateString(Key);
-            string encryptedValue = AESObfuscator.ObfuscateString(Value);
-            //SoomlaUtils.LogDebug(TAG, "Set ## Clear Key:" + Key + " Encrypted Key:" + encryptedKey + " Encrypted Value:" + encryptedValue + " Clear Value:" + Value);
-            GetDatabase().SetKeyVal(encryptedKey, encryptedValue);
-
-            string decryptedVal = AESObfuscator.UnObfuscateString(encryptedValue);*/
-            //SoomlaUtils.LogDebug(TAG, "Set ### Direct uncrypt: " + decryptedVal);
             Task task = new Task(() => SetValueAsync(Key,Value));
             task.Start();
             //SoomlaUtils.LogDebug(TAG, "SetValue End");

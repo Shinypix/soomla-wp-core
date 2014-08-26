@@ -13,10 +13,6 @@
 /// limitations under the License.
 /// 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoomlaWpCore.data
 {
@@ -31,9 +27,7 @@ namespace SoomlaWpCore.data
         public const String SOOM_NAME              = "name";
         public const String SOOM_CLASSNAME         = "className";
 
-
         /** Reward **/
-
         public const String SOOM_REWARDS           = "rewards";
         public const String SOOM_REWARD_REWARDID   = "rewardId";
         public const String SOOM_REWARD_AMOUNT     = "amount";
