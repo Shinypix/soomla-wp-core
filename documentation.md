@@ -1,5 +1,5 @@
 
-**unity3d-store Documentation Conventions**
+**soomla-wp-core Documentation Conventions**
 =====================
 
 
