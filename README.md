@@ -16,10 +16,18 @@ It includes:
 * An encrypted key-value storage (SQLite based) for persisting data locally on devices.
 * Utilities for `String` and `JSONObject` manipulation.
 * Utilities for Logging and encryption.
-
 * `SoomlaEntity` - the base class from which all SOOMLA domain objects derive
 
 SOOMLA modules internally use these features, though we encourage you to use them for your own needs as well.  For example, use our key-value storage for custom game data for usage across game sessions.
+
+Project Config
+---
+
+Install the Visual Studio extension "SQLite for Windows Phone".
+
+In Visual Studio Tools->Extensions Search online for "SQLite for Windows Phone".
+
+The others libraries are NuGets packages, it should be restored automatically.
 
 Contribution
 ---
