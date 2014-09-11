@@ -48,6 +48,16 @@ namespace SoomlaWpCore
             return jsonObject;
         }
 
+        public string GetName()
+        {
+            return mName;
+        }
+
+        public string GetDescription()
+        {
+            return mDescription;
+        }
+
         public bool Equal(Object o)
         {
             if(this == o) return true;
