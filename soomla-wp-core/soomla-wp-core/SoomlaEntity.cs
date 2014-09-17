@@ -48,6 +48,11 @@ namespace SoomlaWpCore
             return jsonObject;
         }
 
+        public string GetId()
+        {
+            return mID;
+        }
+
         public string GetName()
         {
             return mName;
