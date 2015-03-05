@@ -36,29 +36,42 @@ namespace SoomlaWpCore.data
         /// <summary>
         /// The sqlite connection.
         /// </summary>
-        private SQLiteConnection dbConn;
+        private static SQLiteConnection dbConn;
 
         public KeyValDatabase()
         {
             /// Create the database connection.
-            dbConn = new SQLiteConnection(DB_PATH);
-
+            if (dbConn == null)
+            {
+                dbConn = new SQLiteConnection(DB_PATH);
+                dbConn.BusyTimeout = new TimeSpan(0, 0, 1);
+            }
+            
+            
             if (SoomlaConfig.DB_DELETE)
             {
                 dbConn.DropTable<KeyValue>();
             }
-
+            
             /// Create the table Task, if it doesn't exist.
-            dbConn.CreateTable<KeyValue>();
-            /// Retrieve the task list from the database.
+            try
+            {
+                dbConn.CreateTable<KeyValue>();
+            }
+            catch (Exception e)
+            {
+                SoomlaUtils.LogDebug(TAG, e.Message);
+            }
+            
+            /*
+            //For testing
             List<KeyValue> retrievedKeyValue = dbConn.Table<KeyValue>().ToList<KeyValue>();
-            /// Clear the list box that will show all the tasks.
-
             SoomlaUtils.LogDebug(TAG,"DB content");
             foreach (KeyValue t in retrievedKeyValue)
             {
                 SoomlaUtils.LogDebug(TAG,t.Key + " | " + t.Value);
             }
+             */
         }
 
         public async void SetKeyVal(String Key, String Value)
