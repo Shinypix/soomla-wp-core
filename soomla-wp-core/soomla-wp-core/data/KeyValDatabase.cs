@@ -91,7 +91,15 @@ namespace SoomlaWpCore.data
 
         public String GetKeyVal(String Key)
         {
-            KeyValue findKv = dbConn.Find<KeyValue>(Key);
+            KeyValue findKv = null;
+            try
+            {
+                findKv = dbConn.Find<KeyValue>(Key);
+            }
+            catch (Exception e)
+            {
+                SoomlaUtils.LogDebug(TAG, e.Message);
+            }
             if (findKv != null)
             {
                 return findKv.Value;
@@ -109,7 +117,16 @@ namespace SoomlaWpCore.data
 
         private Task<int> Delete(String Key)
         {
-            Task<int> ret = System.Threading.Tasks.Task.Factory.StartNew(() => dbConn.Delete<KeyValue>(Key));
+            Task<int> ret = null;
+            try
+            {
+                ret = System.Threading.Tasks.Task.Factory.StartNew(() => dbConn.Delete<KeyValue>(Key));
+            }
+            catch (Exception e)
+            {
+                SoomlaUtils.LogDebug(TAG, e.Message);
+            }
+            
             //SoomlaUtils.LogDebug(TAG, "After Deleted");
             return ret;
         }

@@ -13,8 +13,8 @@
 /// limitations under the License.
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 using SoomlaWpCore.data;
+using SoomlaWpCore.util;
 
 namespace SoomlaWpCore
 {
@@ -27,23 +27,23 @@ namespace SoomlaWpCore
             mID = ID.Trim();
         }
 
-        public SoomlaEntity(JObject jsonObject) {
-            mName = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_NAME);
-            mDescription = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_DESCRIPTION);
-            mID = jsonObject.Value<string>(JSONConsts.SOOM_ENTITY_ID);
+        public SoomlaEntity(JSONObject jsonObject) {
+            mName = jsonObject[JSONConsts.SOOM_ENTITY_NAME].str;
+            mDescription = jsonObject[JSONConsts.SOOM_ENTITY_DESCRIPTION].str;
+            mID = jsonObject[JSONConsts.SOOM_ENTITY_ID].str;
         }
 
-        public JObject toJSONObject()
+        public JSONObject toJSONObject()
         {
             if (mID == null)
             {
                 SoomlaUtils.LogError(TAG, "This is BAD! We don't have ID in the this SoomlaEntity. Stopping here.");
                 return null;
             }
-            JObject jsonObject = new JObject();
-            jsonObject[JSONConsts.SOOM_ENTITY_NAME] = mName;
-            jsonObject[JSONConsts.SOOM_ENTITY_DESCRIPTION] = mDescription;
-            jsonObject[JSONConsts.SOOM_ENTITY_ID] = mID;
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.SetField(JSONConsts.SOOM_ENTITY_NAME, mName);
+            jsonObject.SetField(JSONConsts.SOOM_ENTITY_DESCRIPTION, mDescription);
+            jsonObject.SetField(JSONConsts.SOOM_ENTITY_ID, mID);
            
             return jsonObject;
         }
