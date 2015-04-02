@@ -18,7 +18,7 @@ using SoomlaWpCore.util;
 
 namespace SoomlaWpCore
 {
-    public abstract class SoomlaEntity
+    public abstract class SoomlaEntity<T>
     {
         public SoomlaEntity(String Name, String Description, String ID)
         {
@@ -33,7 +33,7 @@ namespace SoomlaWpCore
             mID = jsonObject[JSONConsts.SOOM_ENTITY_ID].str;
         }
 
-        public JSONObject toJSONObject()
+        public virtual JSONObject toJSONObject()
         {
             if (mID == null)
             {
@@ -63,18 +63,70 @@ namespace SoomlaWpCore
             return mDescription;
         }
 
-        public bool Equal(Object o)
+        public override bool Equals(System.Object obj)
         {
-            if(this == o) return true;
-            if (!(o is SoomlaEntity)) return false;
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
 
-            SoomlaEntity that = (SoomlaEntity)o;
-            return (mID.Equals(that.mID));
+            // If parameter cannot be cast to Point return false.
+            SoomlaEntity<T> g = obj as SoomlaEntity<T>;
+            if ((System.Object)g == null)
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return (mID == g.mID);
         }
 
-        public int hashCode()
+        public bool Equals(SoomlaEntity<T> g)
         {
-            return mID != null ? mID.GetHashCode() : 0;
+            // If parameter is null return false:
+            if ((object)g == null)
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return (mID == g.mID);
+        }
+
+        public override int GetHashCode()
+        {
+            return mID.GetHashCode();
+        }
+
+        public static bool operator ==(SoomlaEntity<T> a, SoomlaEntity<T> b)
+        {
+            // If both are null, or both are same instance, return true.
+            if (System.Object.ReferenceEquals(a, b))
+            {
+                return true;
+            }
+
+            // If one is null, but not both, return false.
+            if (((object)a == null) || ((object)b == null))
+            {
+                return false;
+            }
+
+            // Return true if the fields match:
+            return a.mID == b.mID;
+        }
+
+        public static bool operator !=(SoomlaEntity<T> a, SoomlaEntity<T> b)
+        {
+            return !(a == b);
+        }
+
+        public virtual T Clone(string newId)
+        {
+            JSONObject obj = this.toJSONObject();
+            obj.SetField(JSONConsts.SOOM_ENTITY_ID, JSONObject.CreateStringObject(newId));
+            return (T)Activator.CreateInstance(this.GetType(), new object[] { obj });
         }
 
         private const String TAG = "SOOMLA SoomlaEntity"; //used for Log messages

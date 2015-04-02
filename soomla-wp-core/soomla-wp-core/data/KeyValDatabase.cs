@@ -21,6 +21,8 @@ using Sqlite;
 using SQLite;
 using Windows.Storage;
 using System.IO;
+using System.IO.IsolatedStorage;
+using System.Linq.Expressions;
 
 namespace SoomlaWpCore.data
 {
@@ -72,6 +74,18 @@ namespace SoomlaWpCore.data
                 SoomlaUtils.LogDebug(TAG,t.Key + " | " + t.Value);
             }
              */
+        }
+
+        public void PurgeDatabse()
+        {
+            dbConn.Dispose();
+            IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication();
+            storage.DeleteFile(DB_PATH);
+        }
+
+        public void PurgeDatabaseEntries()
+        {
+            dbConn.DeleteAll<KeyValue>();
         }
 
         public async void SetKeyVal(String Key, String Value)
@@ -129,6 +143,40 @@ namespace SoomlaWpCore.data
             
             //SoomlaUtils.LogDebug(TAG, "After Deleted");
             return ret;
+        }
+
+        public List<KeyValue> GetQueryVals(String query) {
+            query = query.Replace('*', '%');
+            return dbConn.Query<KeyValue>("select * from KeyValue where Key LIKE ?",query);
+        }
+
+        public string GetQueryOne(String query)
+        {
+            List<KeyValue> kvlist = GetQueryVals(query);
+            if (kvlist.Count > 0)
+            {
+                return kvlist[0].Value;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public int GetQueryCount(String query)
+        {
+            query = query.Replace('*', '%');
+            int count = dbConn.ExecuteScalar<int>("select COUNT(*) from KeyValue where Key LIKE ?", query);
+            return count;
+        }
+
+        /// <summary>
+        /// Get all Keys from KeyValue without the Values
+        /// </summary>
+        /// <returns></returns>
+        public List<KeyValue> GetAllKeys()
+        {
+            return dbConn.Query<KeyValue>("select Key from KeyValue");
         }
     }
 

@@ -27,9 +27,25 @@ namespace SoomlaWpCore
             }
         }
 
+        public static void LogWarning(String tag, String message)
+        {
+            Debug.WriteLine("WARNING " + tag + " " + message);
+        }
+
         public static void LogError(String tag, String message)
         {
             Debug.WriteLine("ERROR " + tag + " " + message);
+        }
+
+        /// <summary>
+        /// Returns the class name to be used in serialization/deserialization process
+        /// in Soomla
+        /// </summary>
+        /// <param name="target">The target to get class name for</param>
+        /// <returns>The class name of the provided instance</returns>
+        public static string GetClassName(object target)
+        {
+            return target.GetType().Name;
         }
 
         private const String TAG = "SOOMLA SoomlaUtils"; //used for Log messages

@@ -40,63 +40,127 @@ namespace SoomlaWpCore.data
             }
             return cache;
         }
-        
-        public static String GetValue(String Key)
+
+        public static String GetValue(String Key, bool EncryptedKey = true)
         {
             if (GetCache().Keys.Contains(Key))
             {
                 return GetCache()[Key];
             }
-            
-            string encryptedKey = AESObfuscator.ObfuscateString(Key);
-           
-            string encryptedValue = GetDatabase().GetKeyVal(encryptedKey);
+
+            String clearKey = Key;
+            if (EncryptedKey)
+            {
+                Key = AESObfuscator.ObfuscateString(Key);
+            }
+
+            string encryptedValue = GetDatabase().GetKeyVal(Key);
             if (encryptedValue == null)
             {
                 return null;
             }
             string decryptedValue = AESObfuscator.UnObfuscateString(encryptedValue);
 
-            GetCache()[Key] = decryptedValue;
+            GetCache()[clearKey] = decryptedValue;
             //SoomlaUtils.LogDebug(TAG, "Get ## Clear Key:" + Key + " Encrypted Key:" + encryptedKey + " Encrypted Value:" + encryptedValue + " Clear Value:" + decryptedValue);
             return decryptedValue;
         }
 
-        public static void SetValue(String Key, String Value)
+        public static String GetNonEncryptedKeyValue(String Key)
+        {
+            return GetValue(Key, false);
+        }
+
+        public static List<KeyValue> GetNonEncryptedQueryValues(String query)
+        {
+            SoomlaUtils.LogDebug(TAG, "trying to fetch values for query: " + query);
+            List<KeyValue> results;
+
+            results = GetDatabase().GetQueryVals(query);
+
+            foreach (KeyValue kv in results)
+            {
+                kv.Value = AESObfuscator.UnObfuscateString(kv.Value);
+            }
+
+            SoomlaUtils.LogDebug(TAG, "fetched " + results.Count + " results");
+            return results;
+        }
+
+        public static String GetOneNonEncryptedQueryValues(String query)
+        {
+            SoomlaUtils.LogDebug(TAG, "trying to fetch one for query: " + query);
+            return AESObfuscator.UnObfuscateString(GetDatabase().GetQueryOne(query));
+        }
+
+        public static int GetCountNonEncryptedQueryValues(String query)
+        {
+            SoomlaUtils.LogDebug(TAG, "trying to fetch count for query: " + query);
+            return GetDatabase().GetQueryCount(query);
+        }
+
+        /// <summary>
+        /// Gets all KeyValue keys in the storage with no encryption
+        /// </summary>
+        /// <returns></returns>
+        public static List<KeyValue> GetEncryptedKeys()
+        {
+            SoomlaUtils.LogDebug(TAG, "trying to fetch all keys");
+            List<KeyValue> results = GetDatabase().GetAllKeys();
+            foreach (KeyValue kv in results)
+            {
+                kv.Key = AESObfuscator.UnObfuscateString(kv.Key);
+            }
+            return results;
+        }
+
+        public static void SetValue(String Key, String Value, bool EncryptedKey = true)
         {
             GetCache()[Key] = Value;
-            Task task = new Task(() => SetValueAsync(Key,Value));
+            Task task = new Task(() => SetValueAsync(Key, Value, EncryptedKey));
             task.Start();
             //SoomlaUtils.LogDebug(TAG, "SetValue End");
         }
 
-        private static void SetValueAsync(String Key, String Value)
+        public static void SetNonEncryptedKeyValue(String Key, String Value)
         {
-            string encryptedKey = AESObfuscator.ObfuscateString(Key);
+            SetValue(Key, Value, false);
+        }
+
+
+        private static void SetValueAsync(String Key, String Value, bool EncryptedKey = true)
+        {
+            if (EncryptedKey)
+            {
+                Key = AESObfuscator.ObfuscateString(Key);
+            }
             string encryptedValue = AESObfuscator.ObfuscateString(Value);
             //SoomlaUtils.LogDebug(TAG, "Set ## Clear Key:" + Key + " Encrypted Key:" + encryptedKey + " Encrypted Value:" + encryptedValue + " Clear Value:" + Value);
-            GetDatabase().SetKeyVal(encryptedKey, encryptedValue);
+            GetDatabase().SetKeyVal(Key, encryptedValue);
 
             string decryptedVal = AESObfuscator.UnObfuscateString(encryptedValue);
             //SoomlaUtils.LogDebug(TAG, "SetValueAsync End");
         }
 
-        public static void DeleteKeyValue(String key)
+        public static void DeleteKeyValue(String key, bool EncryptedKey = true)
         {
             if (GetCache().Keys.Contains(key))
             {
                 GetCache().Remove(key);    
             }
 
-            Task task = new Task(() => DeleteKeyValueAsync(key));
+            Task task = new Task(() => DeleteKeyValueAsync(key, EncryptedKey));
             task.Start();
             //SoomlaUtils.LogDebug(TAG, "DeleteKeyValue End");
         }
 
-        private static void DeleteKeyValueAsync(String Key)
+        private static void DeleteKeyValueAsync(String Key, bool EncryptedKey = true)
         {
-            string encryptedKey = AESObfuscator.ObfuscateString(Key);
-            GetDatabase().DeleteKeyVal(encryptedKey);
+            if (EncryptedKey)
+            {
+                Key = AESObfuscator.ObfuscateString(Key);
+            }
+            GetDatabase().DeleteKeyVal(Key);
             //SoomlaUtils.LogDebug(TAG, "DeleteKeyValueAsync End");
         }
 

@@ -87,6 +87,12 @@
     <Compile Include="data\JSONConsts.cs" />
     <Compile Include="data\KeyValDatabase.cs" />
     <Compile Include="data\KeyValueStorage.cs" />
+    <Compile Include="data\RewardStorage.cs" />
+    <Compile Include="rewards\BadgeReward.cs" />
+    <Compile Include="rewards\RandomReward.cs" />
+    <Compile Include="rewards\Reward.cs" />
+    <Compile Include="rewards\SequenceReward.cs" />
+    <Compile Include="Schedule.cs" />
     <Compile Include="Soomla.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SoomlaConfig.cs" />
