@@ -88,6 +88,12 @@
     <Compile Include="data\KeyValDatabase.cs" />
     <Compile Include="data\KeyValueStorage.cs" />
     <Compile Include="data\RewardStorage.cs" />
+    <Compile Include="events\AppToBackgroundEvent.cs" />
+    <Compile Include="events\AppToForegroundEvent.cs" />
+    <Compile Include="events\RewardGivenEvent.cs" />
+    <Compile Include="events\RewardTakenEvent.cs" />
+    <Compile Include="events\SoomlaEvent.cs" />
+    <Compile Include="Foreground.cs" />
     <Compile Include="rewards\BadgeReward.cs" />
     <Compile Include="rewards\RandomReward.cs" />
     <Compile Include="rewards\Reward.cs" />
@@ -101,8 +107,11 @@
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
     <Compile Include="util\AESObfuscator.cs" />
+    <Compile Include="util\BusProvider.cs" />
+    <Compile Include="util\EventBus.cs" />
     <Compile Include="util\JSONObject.cs" />
     <Compile Include="util\NullCheckable.cs" />
+    <Compile Include="util\Subscribe.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sqlite, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
@@ -118,6 +127,7 @@
       <Name>SQLite for Windows Phone</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <ProjectExtensions />
