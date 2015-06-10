@@ -417,7 +417,7 @@ namespace SoomlaWpCore.util
                                 try
                                 {
 #if USEFLOAT
-                                    n = System.Convert.ToSingle(str);
+                                    n = System.Convert.ToSingle(str,CultureInfo.InvariantCulture);
 #else
 							n = System.Convert.ToDouble(str);				 
 #endif
@@ -1024,7 +1024,7 @@ namespace SoomlaWpCore.util
 					builder.Append(NaN);
 #endif
                     else
-                        builder.Append(n.ToString(CultureInfo.InvariantCulture));
+                        builder.Append(n.ToString("F4",CultureInfo.InvariantCulture));
                     break;
                 case Type.OBJECT:
                     builder.Append("{");

@@ -13,6 +13,8 @@
 /// limitations under the License.
 
 using System;
+using SoomlaWpCore.util;
+using SoomlaWpCore.events;
 
 namespace SoomlaWpCore.data
 {
@@ -68,16 +70,15 @@ namespace SoomlaWpCore.data
                 SetLastGivenTimeMillis(rewardId, GetCurrentTimeStampMillis());
             }
 
-            //TODO Notify Events
             if (notify)
             {
                 if (up)
                 {
-                    //BusProvider.getInstance().post(new RewardGivenEvent(rewardId));
+                    BusProvider.Instance.Post(new RewardGivenEvent(rewardId));
                 }
                 else
                 {
-                    //BusProvider.getInstance().post(new RewardTakenEvent(rewardId));
+                    BusProvider.Instance.Post(new RewardTakenEvent(rewardId));
                 }
             }
         }
