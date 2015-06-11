@@ -90,7 +90,12 @@ namespace SoomlaWpCore.data
         public static String GetOneNonEncryptedQueryValues(String query)
         {
             SoomlaUtils.LogDebug(TAG, "trying to fetch one for query: " + query);
-            return AESObfuscator.UnObfuscateString(GetDatabase().GetQueryOne(query));
+            string result = GetDatabase().GetQueryOne(query);
+            if (result == null)
+            {
+                return result;
+            }
+            return AESObfuscator.UnObfuscateString(result);
         }
 
         public static int GetCountNonEncryptedQueryValues(String query)
@@ -138,7 +143,7 @@ namespace SoomlaWpCore.data
             //SoomlaUtils.LogDebug(TAG, "Set ## Clear Key:" + Key + " Encrypted Key:" + encryptedKey + " Encrypted Value:" + encryptedValue + " Clear Value:" + Value);
             GetDatabase().SetKeyVal(Key, encryptedValue);
 
-            string decryptedVal = AESObfuscator.UnObfuscateString(encryptedValue);
+            //string decryptedVal = AESObfuscator.UnObfuscateString(encryptedValue);
             //SoomlaUtils.LogDebug(TAG, "SetValueAsync End");
         }
 

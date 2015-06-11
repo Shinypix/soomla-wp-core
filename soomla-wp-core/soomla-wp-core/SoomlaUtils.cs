@@ -1,4 +1,5 @@
-﻿/// Copyright (C) 2012-2014 Soomla Inc.
+﻿using Microsoft.Phone.Info;
+/// Copyright (C) 2012-2014 Soomla Inc.
 ///
 /// Licensed under the Apache License, Version 2.0 (the "License");
 /// you may not use this file except in compliance with the License.
@@ -35,6 +36,21 @@ namespace SoomlaWpCore
         public static void LogError(String tag, String message)
         {
             Debug.WriteLine("ERROR " + tag + " " + message);
+        }
+
+        public static String DeviceId()
+        {
+            String deviceId = Windows.Phone.System.Analytics.HostInformation.PublisherHostId;
+            if (deviceId == null)
+            {
+                // This is a fallback in case the device id cannot be retrieved on the device
+                // (happened on some devices !)
+                SoomlaUtils.LogError("SOOMLA ObscuredSharedPreferences",
+                        "Couldn't fetch device id. Using fake id.");
+                deviceId = "SOOMFAKE";
+            }
+
+            return deviceId;
         }
 
         /// <summary>
