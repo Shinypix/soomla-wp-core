@@ -30,6 +30,7 @@ namespace SoomlaWpCore.util
 
 		public void Register(object subscriber){
 			if (!_subscribers.Contains (subscriber)) {
+                //SoomlaUtils.LogDebug("EventBus", "Register : "+subscriber.ToString());
 				_subscribers.Add (subscriber);
 			}
 		}
