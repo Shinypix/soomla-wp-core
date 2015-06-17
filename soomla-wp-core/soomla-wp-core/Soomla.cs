@@ -20,7 +20,7 @@ namespace SoomlaWpCore
     {
         public static void initialize(String secret)
         {
-            SECRET = secret;         
+            SECRET = secret;
         }
 
         public static String SECRET = "SOOMLA_SEC";

@@ -124,9 +124,9 @@ namespace SoomlaWpCore.data
             }
         }
 
-        public async void DeleteKeyVal(String Key)
+        public async Task<int> DeleteKeyVal(String Key)
         {
-            await Delete(Key);
+            return await Delete(Key);
         }
 
         private Task<int> Delete(String Key)

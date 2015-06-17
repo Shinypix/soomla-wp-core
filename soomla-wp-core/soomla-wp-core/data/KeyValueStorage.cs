@@ -124,6 +124,7 @@ namespace SoomlaWpCore.data
             GetCache()[Key] = Value;
             Task task = new Task(() => SetValueAsync(Key, Value, EncryptedKey));
             task.Start();
+            task.Wait();
             //SoomlaUtils.LogDebug(TAG, "SetValue End");
         }
 
@@ -133,7 +134,7 @@ namespace SoomlaWpCore.data
         }
 
 
-        private static void SetValueAsync(String Key, String Value, bool EncryptedKey = true)
+        public static void SetValueAsync(String Key, String Value, bool EncryptedKey = true)
         {
             if (EncryptedKey)
             {
@@ -156,16 +157,18 @@ namespace SoomlaWpCore.data
 
             Task task = new Task(() => DeleteKeyValueAsync(key, EncryptedKey));
             task.Start();
+            task.Wait();
             //SoomlaUtils.LogDebug(TAG, "DeleteKeyValue End");
         }
 
-        private static void DeleteKeyValueAsync(String Key, bool EncryptedKey = true)
+        private async static void DeleteKeyValueAsync(String Key, bool EncryptedKey = true)
         {
             if (EncryptedKey)
             {
                 Key = AESObfuscator.ObfuscateString(Key);
             }
-            GetDatabase().DeleteKeyVal(Key);
+
+            int result = await GetDatabase().DeleteKeyVal(Key);
             //SoomlaUtils.LogDebug(TAG, "DeleteKeyValueAsync End");
         }
 

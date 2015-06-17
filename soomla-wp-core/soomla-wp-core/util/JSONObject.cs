@@ -1,6 +1,6 @@
 #define PRETTY		//Comment out when you no longer need to read JSON to disable pretty Print system-wide
 //Using doubles will cause errors in VectorTemplates.cs; Unity speaks floats
-#define USEFLOAT	//Use floats for numbers instead of doubles	(enable if you're getting too many significant digits in string output)
+//#define USEFLOAT	//Use floats for numbers instead of doubles	(enable if you're getting too many significant digits in string output)
 //#define POOLING	//Currently using a build setting for this one (also it's experimental)
 
 using System;
@@ -220,6 +220,26 @@ namespace SoomlaWpCore.util
             obj.n = val;
             return obj;
         }
+
+        public static JSONObject Create(double val)
+        {
+            JSONObject obj = Create();
+            obj.type = Type.NUMBER;
+
+#if !USEFLOAT
+            double tmpValue = val;
+#endif
+#if USEFLOAT
+            
+            if(val>float.MaxValue || val <float.MinValue)
+            {
+                throw new Exception("JSONObject double exceed float max value");
+            }
+            float tmpValue = (float)val;
+#endif
+            obj.n = tmpValue;
+            return obj;
+        }
         public static JSONObject CreateStringObject(string val)
         {
             if (!string.IsNullOrEmpty(val))
@@ -419,7 +439,8 @@ namespace SoomlaWpCore.util
 #if USEFLOAT
                                     n = System.Convert.ToSingle(str,CultureInfo.InvariantCulture);
 #else
-							n = System.Convert.ToDouble(str);				 
+
+                                    n = System.Convert.ToDouble(str, CultureInfo.InvariantCulture);				 
 #endif
                                     type = Type.NUMBER;
                                 }
@@ -551,6 +572,10 @@ namespace SoomlaWpCore.util
             AddField(name, Create(val));
         }
         public void AddField(string name, int val)
+        {
+            AddField(name, Create(val));
+        }
+        public void AddField(string name, double val)
         {
             AddField(name, Create(val));
         }
@@ -1024,7 +1049,7 @@ namespace SoomlaWpCore.util
 					builder.Append(NaN);
 #endif
                     else
-                        builder.Append(n.ToString("F4",CultureInfo.InvariantCulture));
+                        builder.Append(n.ToString("0.##########",CultureInfo.InvariantCulture));
                     break;
                 case Type.OBJECT:
                     builder.Append("{");
