@@ -148,27 +148,36 @@ namespace SoomlaWpCore.data
             //SoomlaUtils.LogDebug(TAG, "SetValueAsync End");
         }
 
-        public static void DeleteKeyValue(String key, bool EncryptedKey = true)
+        /// <summary>
+        /// Delete a Key
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="EncryptedKey"></param>
+        /// <returns>The number of record deleted</returns>
+        public static int DeleteKeyValue(String key, bool EncryptedKey = true)
         {
-            if (GetCache().Keys.Contains(key))
-            {
-                GetCache().Remove(key);    
-            }
+            int result = 0;
+            result = Task.Run<int>(async () => 
+                {
+                    return await DeleteKeyValueAsync(key, EncryptedKey);
+                }).Result; 
 
-            Task task = new Task(() => DeleteKeyValueAsync(key, EncryptedKey));
-            task.Start();
-            task.Wait();
+            if (result == 1 && GetCache().Keys.Contains(key))
+            {
+                GetCache().Remove(key);
+            }
+            
+            return result;
             //SoomlaUtils.LogDebug(TAG, "DeleteKeyValue End");
         }
 
-        private async static void DeleteKeyValueAsync(String Key, bool EncryptedKey = true)
+        private async static Task<int> DeleteKeyValueAsync(String Key, bool EncryptedKey = true)
         {
             if (EncryptedKey)
             {
                 Key = AESObfuscator.ObfuscateString(Key);
             }
-
-            int result = await GetDatabase().DeleteKeyVal(Key);
+            return await GetDatabase().DeleteKeyVal(Key);
             //SoomlaUtils.LogDebug(TAG, "DeleteKeyValueAsync End");
         }
 
