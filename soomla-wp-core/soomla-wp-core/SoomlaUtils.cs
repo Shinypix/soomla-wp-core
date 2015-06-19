@@ -40,7 +40,8 @@ namespace SoomlaWpCore
 
         public static String DeviceId()
         {
-            String deviceId = Windows.Phone.System.Analytics.HostInformation.PublisherHostId;
+            byte[] myDeviceID = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
+            String deviceId = Convert.ToBase64String(myDeviceID);
             if (deviceId == null)
             {
                 // This is a fallback in case the device id cannot be retrieved on the device
