@@ -60,7 +60,7 @@ namespace SoomlaWpCore.data
             return toReturn;
 		}
 
-        private static void SetTimesGiven(string rewardId, bool up, bool notify)
+        public static void SetTimesGiven(string rewardId, bool up, bool notify)
         {
             int total = GetTimesGiven(rewardId) + (up ? 1 : -1);
             ResetTimesGiven(rewardId, total);
@@ -83,7 +83,7 @@ namespace SoomlaWpCore.data
             }
         }
 
-        private static long GetCurrentTimeStampMillis()
+        public static long GetCurrentTimeStampMillis()
         {
             return (DateTime.UtcNow.Ticks - DateTime.Parse("01/01/1970 00:00:00").Ticks) / 10000;
         }
